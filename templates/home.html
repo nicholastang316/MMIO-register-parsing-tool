@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>PCIe Server</title>
+    <link rel="stylesheet" href="templates/styles.css">
+  </head>
+  <body>
+    <h1>MMIO Register Parsing Tool</h1>
+    <form class="" action="/" method="post">
+      <label for="device_id">Device ID: </label>
+      <input type="text" name="device_id" value="">
+      <br><br>
+      <label for="regspec_file">Regspec file location:</label>
+      <input type="file" name="regspec_file" value="" accept=".txt">
+      <br><br>
+      <label for="ops">Operations: </label>
+      <select class="ops" name="ops">
+        <option value="pci_cfg_space">Dump PCI config space</option>
+        <option value="regspec_mmio">Dump MMIO registers and value in regspec.txt</option>
+        <option value="read">Read a MMIO register</option>
+        <option value="write">Write a MMIO register</option>
+        <option value="set_base">Set MMIO base address</option>
+      </select>
+      <br><br>
+      <label for="reg_offset">Register offset: </label>
+      <input type="text" name="reg_offset" value="">
+      <br><br>
+      <label for="wr_value">Write value: </label>
+      <input type="text" name="wr_value" value="">
+      <br><br>
+      <button type="submit" name="execute">Execute</button>
+      <br><br>
+      <label for="output">Output:</label>
+      <br>
+      <textarea id="output" name="output" cols="100" rows="35" readonly>{{ output }}</textarea>
+    </form>
+  </body>
+</html>
