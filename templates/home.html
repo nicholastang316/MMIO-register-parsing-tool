@@ -7,12 +7,12 @@
   </head>
   <body>
     <h1>MMIO Register Parsing Tool</h1>
-    <form class="" action="/" method="post">
+    <form class="" action="/" method="post" enctype="multipart/form-data">
       <label for="device_id">Device ID: </label>
       <input type="text" name="device_id" value="">
       <br><br>
       <label for="regspec_file">Regspec file location:</label>
-      <input type="file" name="regspec_file" value="" accept=".txt">
+      <input type="file" name="regspec_file" value="">
       <br><br>
       <label for="ops">Operations: </label>
       <select class="ops" name="ops">
@@ -28,6 +28,9 @@
       <br><br>
       <label for="wr_value">Write value: </label>
       <input type="text" name="wr_value" value="">
+      <br><br>
+      <label for="base_addr">Base address: </label>
+      <input type="text" name="base_addr">
       <br><br>
       <button type="submit" name="execute">Execute</button>
       <br><br>

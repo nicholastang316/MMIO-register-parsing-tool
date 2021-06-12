@@ -21,3 +21,10 @@ def write_reg(device_id, base_addr, offset, wr_value):
     rc = p.returncode
     return output
 
+
+def dump_mmio_reg(device_id, base_addr, regspec_file):
+    p = Popen(["./devtool", "--mmio", "-d", device_id, "-b", base_addr, "-s", regspec_file], stdin=PIPE, stdout=PIPE,
+               stderr=PIPE)
+    output, err = p.communicate(b"input data that is passed to subprocess' stdin")
+    rc = p.returncode
+    return output
