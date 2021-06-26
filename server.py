@@ -1,20 +1,22 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, send_file
 import re
 import c_pcie
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "c88d30bec6ddaec23c146e85ecab6264"
 set_base_addr = ""
+download_available = 0
 
 
 @app.route("/", methods=['GET'])
 def home():
-    return render_template('home.html', output="This is the output")
+    return render_template('home.html', output="This is the output", download_available=download_available)
 
 
 @app.route("/", methods=['POST'])
 def execute():
     global set_base_addr
+    global download_available
 
     device_id = request.form['device_id']
     regspec_file = request.files['regspec_file']
@@ -34,9 +36,13 @@ def execute():
         output = c_pcie.read_reg(device_id, base_addr, reg_offset)
     elif op == "write":
         output = c_pcie.write_reg(device_id, base_addr, reg_offset, wr_value)
-    elif op == "regspec_mmio":
+    elif op == "regspec_dump":
         regspec_file.save(regspec_file.filename)
-        output = c_pcie.dump_mmio_reg(device_id, base_addr, regspec_file.filename)
+        output = c_pcie.regspec_dump(device_id, base_addr, regspec_file.filename)
+    elif op == "regspec_dump_file":
+        regspec_file.save(regspec_file.filename)
+        output = c_pcie.regspec_dump_file(device_id, base_addr, regspec_file.filename)
+        download_available = 1
     elif op == "set_base":
         set_base_addr = request.form['base_addr']
         output = f"b'Base address is set to {set_base_addr}'"
@@ -50,4 +56,9 @@ def execute():
     app.logger.info(f"Write value: {wr_value}")
     app.logger.info(f"Output: {output}")
 
-    return render_template('home.html', output=output)
+    return send_file("regspec_dump.txt", as_attachment=True) and render_template('home.html', output=output, download_available=download_available)
+
+
+@app.route("/download")
+def download_file():
+    return send_file("regspec_dump.txt", as_attachment=True)

@@ -17,7 +17,8 @@
       <label for="ops">Operations: </label>
       <select class="ops" name="ops">
         <option value="pci_cfg_space">Dump PCI config space</option>
-        <option value="regspec_mmio">Dump MMIO registers and value in regspec.txt</option>
+        <option value="regspec_dump">Dump MMIO registers and value in regspec.txt</option>
+        <option value="regspec_dump_file">Dump MMIO registers and value in regspec.txt on an output file</option>
         <option value="read">Read a MMIO register</option>
         <option value="write">Write a MMIO register</option>
         <option value="set_base">Set MMIO base address</option>
@@ -33,6 +34,9 @@
       <input type="text" name="base_addr">
       <br><br>
       <button type="submit" name="execute">Execute</button>
+      {% if download_available %}
+        <a href="/download">Download</a>
+      {% endif %}
       <br><br>
       <label for="output">Output:</label>
       <br>
