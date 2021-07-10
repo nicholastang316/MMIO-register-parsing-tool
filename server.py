@@ -56,9 +56,13 @@ def execute():
     app.logger.info(f"Write value: {wr_value}")
     app.logger.info(f"Output: {output}")
 
-    return send_file("regspec_dump.txt", as_attachment=True) and render_template('home.html', output=output, download_available=download_available)
+    if op == "regspec_dump_file":
+         return render_template('download.html')
+    else:
+        return render_template('home.html', output=output, download_available=download_available)
 
 
 @app.route("/download")
 def download_file():
     return send_file("regspec_dump.txt", as_attachment=True)
+
