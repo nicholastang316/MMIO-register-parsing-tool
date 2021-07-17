@@ -5,18 +5,16 @@ import c_pcie
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "c88d30bec6ddaec23c146e85ecab6264"
 set_base_addr = ""
-download_available = 0
 
 
 @app.route("/", methods=['GET'])
 def home():
-    return render_template('home.html', output="This is the output", download_available=download_available)
+    return render_template('home.html', output="This is the output")
 
 
 @app.route("/", methods=['POST'])
 def execute():
     global set_base_addr
-    global download_available
 
     device_id = request.form['device_id']
     regspec_file = request.files['regspec_file']
@@ -42,7 +40,6 @@ def execute():
     elif op == "regspec_dump_file":
         regspec_file.save(regspec_file.filename)
         output = c_pcie.regspec_dump_file(device_id, base_addr, regspec_file.filename)
-        download_available = 1
     elif op == "set_base":
         set_base_addr = request.form['base_addr']
         output = f"b'Base address is set to {set_base_addr}'"
@@ -57,9 +54,9 @@ def execute():
     app.logger.info(f"Output: {output}")
 
     if op == "regspec_dump_file":
-         return render_template('download.html')
+        return render_template('download.html')
     else:
-        return render_template('home.html', output=output, download_available=download_available)
+        return render_template('home.html', output=output)
 
 
 @app.route("/download")
