@@ -56,7 +56,7 @@ def execute():
     if op == "regspec_dump_file":
         return render_template('download.html')
     else:
-        return render_template('home.html', output=output)
+        return render_template('home.html', output=output, set_base_addr=set_base_addr)
 
 
 @app.route("/download")
