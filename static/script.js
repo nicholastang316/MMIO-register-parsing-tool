@@ -39,3 +39,24 @@ function change(id, newClass) {
     identity=document.getElementById(id);
     identity.className=newClass;
 }
+
+function check_form(form) {
+    var re = /^0x/;
+
+//    if(!re.test(form.reg_offset.value)) {
+//        alert("Error: Input must be hexadecimal!");
+//        form.reg_offset.focus();
+//        return false;
+//    }
+
+//    for (var i = 1; i < all_fields.length; i++) {
+//        alert(form.all_fields[i].value);
+//        if(!re.test(form.all_fields[i].value)) {
+//            alert("Error: Input must be hexadecimal!");
+//            form.all_fields[i].focus();
+//            return false;
+//        }
+//    }
+
+    return true;
+}

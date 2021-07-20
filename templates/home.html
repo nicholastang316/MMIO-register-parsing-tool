@@ -7,7 +7,7 @@
   </head>
   <body>
     <h1>MMIO Register Parsing Tool</h1>
-    <form class="" action="/" method="post" enctype="multipart/form-data">
+    <form class="" action="/" method="post" enctype="multipart/form-data" onsubmit="return check_form(this);">
       <label for="device_id" id="device_id">Device ID: </label>
       <input type="text" name="device_id" value="" required>
       <br><br>
@@ -32,19 +32,19 @@
 
       <div id="reg_offset_div" class="hidden">
         <label for="reg_offset" id="reg_offset_label">Register offset: </label>
-        <input type="text" name="reg_offset" id="reg_offset" value="">
+        <input type="text" name="reg_offset" id="reg_offset" value="" placeholder="0xXXXX">
         <br><br>
       </div>
 
       <div id="wr_value_div" class="hidden">
         <label for="wr_value" id="wr_value_label">Write value: </label>
-        <input type="text" name="wr_value" id="wr_value" value="">
+        <input type="text" name="wr_value" id="wr_value" value="" placeholder="0xXXXX">
         <br><br>
       </div>
 
       <div id="base_addr_div" class="hidden">
         <label for="base_addr" class="normal" id="base_addr_label">Base address: </label>
-        <input type="text" name="base_addr" id="base_addr">
+        <input type="text" name="base_addr" id="base_addr" placeholder="0xXXXX">
         <br><br>
       </div>
 
