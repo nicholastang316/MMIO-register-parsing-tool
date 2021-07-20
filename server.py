@@ -9,7 +9,7 @@ set_base_addr = ""
 
 @app.route("/", methods=['GET'])
 def home():
-    return render_template('home.html', output="This is the output")
+    return render_template('home.html', output="This is the output", set_base_addr=set_base_addr)
 
 
 @app.route("/", methods=['POST'])
