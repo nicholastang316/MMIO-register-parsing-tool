@@ -8,7 +8,7 @@
   <body>
     <h1>MMIO Register Parsing Tool</h1>
     <form class="" action="/" method="post" enctype="multipart/form-data">
-      <label for="device_id" id="device_id" class="required"><span class="asterisk">*</span>Device ID: </label>
+      <label for="device_id" id="device_id">Device ID: </label>
       <input type="text" name="device_id" value="" required>
       <br><br>
 
@@ -24,29 +24,37 @@
       </select>
       <br><br>
 
-      <label for="regspec_file" id="regspec_file_label" class="normal"><span class="asterisk">*</span>Regspec file location:</label>
-      <input type="file" name="regspec_file" id="regspec_file" value="">
-      <br><br>
+      <div id="regspec_file_div" class="hidden">
+        <label for="regspec_file" id="regspec_file_label">Regspec file location:</label>
+        <input type="file" name="regspec_file" id="regspec_file" value="">
+        <br><br>
+      </div>
 
-      <label for="reg_offset" id="reg_offset_label" class="normal"><span class="asterisk">*</span>Register offset: </label>
-      <input type="text" name="reg_offset" id="reg_offset" value="">
-      <br><br>
+      <div id="reg_offset_div" class="hidden">
+        <label for="reg_offset" id="reg_offset_label">Register offset: </label>
+        <input type="text" name="reg_offset" id="reg_offset" value="">
+        <br><br>
+      </div>
 
-      <label for="wr_value" id="wr_value_label" class="normal"><span class="asterisk">*</span>Write value: </label>
-      <input type="text" name="wr_value" id="wr_value" value="">
-      <br><br>
+      <div id="wr_value_div" class="hidden">
+        <label for="wr_value" id="wr_value_label">Write value: </label>
+        <input type="text" name="wr_value" id="wr_value" value="">
+        <br><br>
+      </div>
 
-      <label for="base_addr" class="normal" id="base_addr_label" class="normal"><span class="asterisk">*</span>Base address: </label>
-      <input type="text" name="base_addr" id="base_addr">
-      <br><br>
+      <div id="base_addr_div" class="hidden">
+        <label for="base_addr" class="normal" id="base_addr_label">Base address: </label>
+        <input type="text" name="base_addr" id="base_addr">
+        <br><br>
+      </div>
 
       <button type="submit" name="execute">Execute</button>
       <br><br>
-
-      <label for="output">Output:</label>
-      <br>
-      <textarea id="output" name="output" cols="100" rows="35" readonly>{{ output }}</textarea>
     </form>
+    <label for="output">Output:</label>
+    <br>
+    <textarea id="output" name="output" cols="100" rows="35" readonly>{{ output }}</textarea>
+
   </body>
   <script type="text/javascript">
     var set_base_addr = {{ set_base_addr }}
