@@ -1,4 +1,5 @@
 var all_fields = ["regspec_file", "reg_offset", "wr_value", "base_addr"];
+
 function update_required() {
     var op = document.getElementById("ops");
     var selected_op = op.options[op.selectedIndex].text;
@@ -7,6 +8,9 @@ function update_required() {
     for (var i = 0; i < all_fields.length; i++) {
         document.getElementById(all_fields[i]).required = false;
         change(all_fields[i].concat("_div"), "hidden");
+        if (i > 0) {
+          change(all_fields[i].concat("_err"), "hidden");
+        }
     }
 
     // If base_addr is not set, makes base_addr a required field when it is not "Dump PCI config space"
@@ -40,23 +44,30 @@ function change(id, newClass) {
     identity.className=newClass;
 }
 
-function check_form(form) {
-    var re = /^0x/;
+function check_form() {
+   for (var i = 1; i < all_fields.length; i++) {
+       error_msg = document.getElementById(all_fields[i].concat("_err")).getAttribute("class");
 
-//    if(!re.test(form.reg_offset.value)) {
-//        alert("Error: Input must be hexadecimal!");
-//        form.reg_offset.focus();
-//        return false;
-//    }
-
-//    for (var i = 1; i < all_fields.length; i++) {
-//        alert(form.all_fields[i].value);
-//        if(!re.test(form.all_fields[i].value)) {
-//            alert("Error: Input must be hexadecimal!");
-//            form.all_fields[i].focus();
-//            return false;
-//        }
-//    }
+       if (error_msg == "error_msg") {
+           return false;
+       }
+   }
 
     return true;
+}
+
+function check_field(input) {
+    var re = /^0x/;
+
+    id=input.id;
+    value = input.value;
+
+    if(!re.test(value)) {
+      // If the input does not preceeds with 0x
+      change(id, "error");
+      change(id.concat("_err"), "error_msg");
+    } else {
+      change(id, "");
+      change(id.concat("_err"), "hidden");
+    }
 }
