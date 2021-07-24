@@ -3,62 +3,72 @@
   <head>
     <meta charset="utf-8">
     <title>PCIe Server</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
     <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
   </head>
   <body>
-    <h1>MMIO Register Parsing Tool</h1>
-    <form class="" action="/" method="post" name="pcie_form" enctype="multipart/form-data" onsubmit="return check_form();">
-      <label for="device_id" id="device_id">Device ID: </label>
-      <input type="text" name="device_id" value="" required>
-      <br><br>
-
-      <label for="ops">Operations: </label>
-      <select class="ops" name="ops" id="ops" onchange="update_required();" required>
-        <option disabled selected value> -- select an operation -- </option>
-        <option value="pci_cfg_space">Dump PCI config space</option>
-        <option value="regspec_dump">Dump MMIO registers and value in regspec.txt</option>
-        <option value="regspec_dump_file">Dump MMIO registers and value in regspec.txt on an output file</option>
-        <option value="read">Read a MMIO register</option>
-        <option value="write">Write a MMIO register</option>
-        <option value="set_base">Set MMIO base address</option>
-      </select>
-      <br><br>
-
-      <div id="regspec_file_div" class="hidden">
-        <label for="regspec_file" id="regspec_file_label">Regspec file location:</label>
-        <input type="file" name="regspec_file" id="regspec_file" value="">
+    <div class="jumbotron">
+      <h1 class="display-4">MMIO Register Parsing Tool</h1>
+    </div>
+    <div class="content">
+      <form class="" action="/" method="post" name="pcie_form" enctype="multipart/form-data" onsubmit="return check_form();">
+        <label for="device_id" id="device_id">Device ID: </label>
+        <input type="text" name="device_id" value="{{ device_id }}" required>
         <br><br>
-      </div>
 
-      <div id="reg_offset_div" class="hidden">
-        <label for="reg_offset" id="reg_offset_label">Register offset: </label>
-        <input type="text" name="reg_offset" id="reg_offset" value="" placeholder="0xXXXX" onchange="check_field(this);">
-        <p id="reg_offset_err" class="hidden">* Register offsets must be in hexadecimal !!</p>
+        <label for="ops">Operations: </label>
+        <select class="ops" name="ops" id="ops" onchange="update_required();" required>
+          <option disabled selected value> -- select an operation -- </option>
+          <option value="pci_cfg_space">Dump PCI config space</option>
+          <option value="regspec_dump">Dump MMIO registers and value in regspec.txt</option>
+          <option value="regspec_dump_file">Dump MMIO registers and value in regspec.txt on an output file</option>
+          <option value="read">Read a MMIO register</option>
+          <option value="write">Write a MMIO register</option>
+          <option value="set_base">Set MMIO base address</option>
+        </select>
         <br><br>
-      </div>
+
+        <div id="regspec_file_div" class="hidden">
+          <label for="regspec_file" id="regspec_file_label">Regspec file location:</label>
+          <input type="file" name="regspec_file" id="regspec_file" value="">
+          <br><br>
+        </div>
+
+        <div id="reg_offset_div" class="hidden">
+          <label for="reg_offset" id="reg_offset_label">Register offset: </label>
+          <input type="text" name="reg_offset" id="reg_offset" value="" placeholder="0xXXXX" onchange="check_field(this);">
+          <p id="reg_offset_err" class="hidden">* Register offsets must be in hexadecimal !!</p>
+          <br><br>
+        </div>
 
 
-      <div id="wr_value_div" class="hidden">
-        <label for="wr_value" id="wr_value_label">Write value: </label>
-        <input type="text" name="wr_value" id="wr_value" value="" placeholder="0xXXXX" onchange="check_field(this);">
-        <p id="wr_value_err" class="hidden">* Write value must be in hexadecimal !!</p>
+        <div id="wr_value_div" class="hidden">
+          <label for="wr_value" id="wr_value_label">Write value: </label>
+          <input type="text" name="wr_value" id="wr_value" value="" placeholder="0xXXXX" onchange="check_field(this);">
+          <p id="wr_value_err" class="hidden">* Write value must be in hexadecimal !!</p>
+          <br><br>
+        </div>
+
+        <div id="base_addr_div" class="hidden">
+          <label for="base_addr" class="normal" id="base_addr_label">Base address: </label>
+          <input type="text" name="base_addr" id="base_addr" placeholder="0xXXXX" onchange="check_field(this);">
+          <p id="base_addr_err" class="hidden">* Base address must be in hexadecimal !!</p>
+          <br><br>
+        </div>
+
+        <button class="btn btn-primary" type="submit" name="execute">Execute</button>
         <br><br>
-      </div>
+      </form>
+      <!-- <label for="output">Output:</label>
+      <br>
+      <textarea id="output" name="output" cols="100" rows="35" readonly>{{ output }}</textarea> -->
+      <div class="output_div">
+        <h2 id="output">Output</h2>
+        <p>{{ output|safe }}</p>
+    </div>
 
-      <div id="base_addr_div" class="hidden">
-        <label for="base_addr" class="normal" id="base_addr_label">Base address: </label>
-        <input type="text" name="base_addr" id="base_addr" placeholder="0xXXXX" onchange="check_field(this);">
-        <p id="base_addr_err" class="hidden">* Base address must be in hexadecimal !!</p>
-        <br><br>
-      </div>
-
-      <button type="submit" name="execute">Execute</button>
-      <br><br>
-    </form>
-    <label for="output">Output:</label>
-    <br>
-    <textarea id="output" name="output" cols="100" rows="35" readonly>{{ output }}</textarea>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   </body>
   <script type="text/javascript">
     var set_base_addr = {{ set_base_addr }}

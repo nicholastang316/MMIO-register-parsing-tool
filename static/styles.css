@@ -1,0 +1,58 @@
+h1 {
+    color: $blue;
+    text-align: center;
+}
+
+.jumbotron {
+    background: #084298;
+    color: white;
+    font-weight: bold;
+    padding: 20px;
+}
+
+
+body {
+    background-color: #9EC5FE;
+    color: #084298;
+}
+
+.content {
+    padding: 30px;
+}
+
+#output {
+    font-weight: bold;
+    text-decoration: underline;
+    color: #052C65;
+}
+
+.output_div {
+    margin-top: 30px;
+    padding: 30px;
+    border-style: groove;
+    border-color: #0A58CA;
+}
+
+p {
+    display: inline;
+}
+
+.required {
+    display: inline;
+}
+
+.hidden {
+    display: none;
+}
+
+.error {
+    background-color:#f2b6ba;
+    color: red;
+    font-weight: bold;
+}
+
+.error_msg {
+    font-size: 14px;
+    color: red;
+    font-style: italic;
+}

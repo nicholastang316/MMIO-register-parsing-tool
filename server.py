@@ -5,16 +5,18 @@ import c_pcie
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "c88d30bec6ddaec23c146e85ecab6264"
 set_base_addr = ""
+device_id = ""
 
 
 @app.route("/", methods=['GET'])
 def home():
-    return render_template('home.html', output="This is the output", set_base_addr=set_base_addr)
+    return render_template('home.html', output="---   Sample output   ---", set_base_addr=set_base_addr, device_id=device_id)
 
 
 @app.route("/", methods=['POST'])
 def execute():
     global set_base_addr
+    global device_id
 
     device_id = request.form['device_id']
     regspec_file = request.files['regspec_file']
@@ -46,7 +48,7 @@ def execute():
 
     output = re.match(r"b'(.*)'", str(output))
     output = output.group(1)
-    output = output.replace("\\n", "\n")
+    output = output.replace("\\n", "<br>")
     app.logger.info(f"Device ID: {device_id}")
     app.logger.info(f"Operation selected: {op}")
     app.logger.info(f"Register offset: {reg_offset}")
@@ -56,10 +58,9 @@ def execute():
     if op == "regspec_dump_file":
         return render_template('download.html')
     else:
-        return render_template('home.html', output=output, set_base_addr=set_base_addr)
+        return render_template('home.html', output=output, set_base_addr=set_base_addr, device_id=device_id)
 
 
 @app.route("/download")
 def download_file():
     return send_file("regspec_dump.txt", as_attachment=True)
-
