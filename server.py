@@ -23,12 +23,12 @@ def execute():
     op = request.form['ops']
     wr_value = request.form['wr_value']
     reg_offset = request.form['reg_offset']
-    app.logger.info(f"Set base address: {set_base_addr}")
+    # app.logger.info(f"Set base address: {set_base_addr}")
     if set_base_addr:
         base_addr = set_base_addr
     else:
         base_addr = request.form['base_addr']
-    app.logger.info(f"Base address: {base_addr}")
+    # app.logger.info(f"Base address: {base_addr}")
 
     if op == "pci_cfg_space":
         output = c_pcie.dump_cfg_space(device_id)
@@ -49,11 +49,6 @@ def execute():
     output = re.match(r"b'(.*)'", str(output))
     output = output.group(1)
     output = output.replace("\\n", "<br>")
-    app.logger.info(f"Device ID: {device_id}")
-    app.logger.info(f"Operation selected: {op}")
-    app.logger.info(f"Register offset: {reg_offset}")
-    app.logger.info(f"Write value: {wr_value}")
-    app.logger.info(f"Output: {output}")
 
     if op == "regspec_dump_file":
         return render_template('download.html')
